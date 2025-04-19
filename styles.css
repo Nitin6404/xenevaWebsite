@@ -425,7 +425,7 @@ a:hover {
 /* Features Section */
 .features {
     position: relative;
-    background: linear-gradient(to bottom, var(--dark), var(--darker));
+    /* background: linear-gradient(to bottom, var(--dark), var(--darker)); */
 }
 
 .section-header {
@@ -510,7 +510,7 @@ a:hover {
 
 /* About Section */
 .about {
-    background: linear-gradient(to bottom, var(--darker), var(--dark));
+    /* background: linear-gradient(to bottom, var(--darker), var(--dark)); */
     position: relative;
 }
 
@@ -603,7 +603,7 @@ a:hover {
 
 /* Roadmap Section */
 .roadmap {
-    background: linear-gradient(to bottom, var(--dark), var(--darker));
+    /* background: linear-gradient(to bottom, var(--dark), var(--darker)); */
     position: relative;
 }
 
@@ -735,7 +735,7 @@ a:hover {
 
 /* Team Section */
 .team {
-    background: linear-gradient(to bottom, var(--darker), var(--dark));
+    /* background: linear-gradient(to bottom, var(--darker), var(--dark)); */
     position: relative;
 }
 
@@ -812,7 +812,7 @@ a:hover {
 
 /* FAQ Section */
 .faq {
-    background: linear-gradient(to bottom, var(--dark), var(--darker));
+    /* background: linear-gradient(to bottom, var(--dark), var(--darker)); */
     position: relative;
 }
 
@@ -907,6 +907,7 @@ a:hover {
     text-align: center;
     position: relative;
     overflow: hidden;
+    border-radius: 35px;
 }
 
 .cta::before {
@@ -953,7 +954,7 @@ a:hover {
 
 /* Footer */
 .footer {
-    background: var(--darker);
+    /* background: var(--darker); */
     padding: 80px 0 30px;
     position: relative;
 }
