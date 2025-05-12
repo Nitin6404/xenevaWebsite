@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Particle effect for hero section
     createParticles();
     
-    // Set up scroll spy for navigation
+    // Set up IMPROVED scroll spy for navigation
     setupScrollSpy();
     
     // Set up code copy buttons
@@ -131,53 +131,111 @@ function createParticles() {
     }
 }
 
-// Setup scroll spy for navigation
-// Improved scroll-spy functionality
-document.addEventListener('DOMContentLoaded', function() {
+// COMPLETELY REWRITTEN scroll spy functionality
+function setupScrollSpy() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    // Set a higher threshold to ensure better section detection
-    const threshold = 200;
+    // Use a smaller threshold for better accuracy - reduce from 200 to 100
+    const threshold = 100;
+    const headerHeight = document.querySelector('header').offsetHeight;
     
-    function updateActiveLink() {
-      let current = '';
+    // Create an array to store section positions for better performance
+    const sectionPositions = [];
+    
+    // Function to calculate and store section positions
+    function calculateSectionPositions() {
+      sectionPositions.length = 0; // Clear array
       
       sections.forEach(section => {
-        const sectionTop = section.offsetTop - threshold;
-        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY - headerHeight - threshold;
+        const sectionBottom = sectionTop + section.offsetHeight;
         
-        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-          current = section.getAttribute('id');
-        }
+        sectionPositions.push({
+          id: sectionId,
+          top: sectionTop,
+          bottom: sectionBottom
+        });
       });
       
+      // Sort sections by position from top to bottom
+      sectionPositions.sort((a, b) => a.top - b.top);
+    }
+    
+    // Call once to initialize
+    calculateSectionPositions();
+    
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateSectionPositions);
+    
+    // Improved function to update active nav link
+    function updateActiveLink() {
+      const scrollPosition = window.scrollY;
+      let activeSection = '';
+      
+      // Find the section that's currently in view
+      for (let i = 0; i < sectionPositions.length; i++) {
+        const section = sectionPositions[i];
+        if (scrollPosition >= section.top && scrollPosition < section.bottom) {
+          activeSection = section.id;
+          break;
+        }
+      }
+      
+      // If we're at the bottom of the page, activate the last section
+      if (window.innerHeight + scrollPosition >= document.body.offsetHeight - 50) {
+        activeSection = sectionPositions[sectionPositions.length - 1].id;
+      }
+      
+      // If no section is active and we're at the top, activate the first one
+      if (!activeSection && scrollPosition < sectionPositions[0].top) {
+        activeSection = sectionPositions[0].id;
+      }
+      
+      // Update active class on navigation links
       navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
+        const href = link.getAttribute('href').substring(1); // Remove #
+        if (href === activeSection) {
           link.classList.add('active');
         }
       });
     }
     
-    // Update on scroll
-    window.addEventListener('scroll', updateActiveLink);
+    // Update on scroll - use requestAnimationFrame for better performance
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          updateActiveLink();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
     
     // Initial check
     updateActiveLink();
     
-    // Fix for navigation click issues
+    // Improved navigation click handler
     navLinks.forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
+        
+        // Close mobile menu if open
+        if (navMenu && navMenu.classList.contains('active')) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+        }
         
         const targetId = this.getAttribute('href');
         if (targetId.startsWith('#')) {
           const targetSection = document.querySelector(targetId);
           if (targetSection) {
-            // Manual scroll with offset
-            const headerHeight = document.querySelector('header').offsetHeight;
-            const targetPosition = targetSection.offsetTop - headerHeight ;
+            // Get fresh measurements for accuracy
+            const headerOffset = document.querySelector('header').offsetHeight;
+            const targetPosition = targetSection.getBoundingClientRect().top + window.scrollY - headerOffset;
             
             window.scrollTo({
               top: targetPosition,
@@ -187,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-  });
+}
 
 // Setup code copy functionality
 function setupCodeCopy() {
@@ -243,30 +301,6 @@ function setupAnimations() {
     // Initial check to reveal elements already in view
     revealOnScroll();
 }
-
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Close mobile menu if open
-        if (navMenu && navMenu.classList.contains('active')) {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
-        
-        const targetId = this.getAttribute('href');
-        if (targetId !== '#') {
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        }
-    });
-});
 
 // Add terminal typing effect for any terminal elements
 function initializeTerminalEffect() {
