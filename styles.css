@@ -36,7 +36,7 @@
 html {
     scroll-padding-top: 100px; /* Adjust this value based on your header height */
     scroll-behavior: smooth;
-  }
+}
 
 body {
     color: var(--text);
@@ -231,6 +231,11 @@ a:hover {
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary-light);
+    font-weight: 600;
 }
 
 .nav-cta {
@@ -735,31 +740,6 @@ a:hover {
     }
 }
 
-
-
-.social-links {
-    display: flex;
-    gap: 15px;
-}
-
-.social-link {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: var(--glass-effect);
-    border: 1px solid var(--glass-border);
-    color: var(--text);
-    transition: var(--transition);
-}
-
-.social-link:hover {
-    background: var(--primary);
-    color: var(--light);
-}
-
 /* FAQ Section */
 .faq {
     /* background: linear-gradient(to bottom, var(--dark), var(--darker)); */
@@ -786,6 +766,7 @@ a:hover {
     width: 100%;
     isolation: isolate; /* Create stacking context */
     position: relative;
+    margin-bottom: 15px !important;
 }
 
 .faq-header {
@@ -1137,8 +1118,32 @@ a:hover {
     from, to { border-color: transparent }
     50% { border-color: var(--primary) }
 }
-/* Updated FAQ Styles - Add these at the end of your styles.css file */
 
+/* Social links styles - kept for footer usage */
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--glass-effect);
+    border: 1px solid var(--glass-border);
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    background: var(--primary);
+    color: var(--light);
+}
+
+/* Updated FAQ Styles */
 /* Completely revised FAQ section styling */
 .faq-item {
     margin-bottom: 15px !important;
@@ -1179,4 +1184,3 @@ a:hover {
     background-color: rgba(255, 255, 255, 0.05);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-
