@@ -1,0 +1,24 @@
+{
+  "name": "xenevaos-website",
+  "version": "1.0.0",
+  "description": "XenevaOS - Modern AR/VR/XR Operating System Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve -s . -l 3000",
+    "start": "serve -s . -l 3000",
+    "build": "echo 'Static site - no build process needed'"
+  },
+  "keywords": [
+    "xenevaos",
+    "ar",
+    "vr",
+    "xr",
+    "operating-system",
+    "spatial-computing"
+  ],
+  "author": "XenevaOS Team",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
