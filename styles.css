@@ -90,24 +90,24 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(0, 122, 255, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 122, 255, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(0, 122, 255, 0.02) 0%, transparent 50%);
-    animation: subtleShift 20s ease-in-out infinite;
+        linear-gradient(rgba(0, 122, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 122, 255, 0.01) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 40s linear infinite;
     z-index: -1;
     pointer-events: none;
+    opacity: 0.3;
 }
 
-@keyframes subtleShift {
-    0%, 100% { 
-        opacity: 1; 
-        transform: scale(1);
-    }
-    50% { 
-        opacity: 0.8; 
-        transform: scale(1.05);
-    }
+body::after {
+    display: none;
 }
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
@@ -263,10 +263,39 @@ p {
     font-weight: 800;
     color: var(--text);
     letter-spacing: -0.02em;
+    text-decoration: none;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.logo:hover::before {
+    left: 100%;
+}
+
+.logo:hover {
+    color: var(--primary);
+    transform: translateY(-1px);
 }
 
 .logo span {
     color: var(--primary);
+    transition: var(--transition);
+}
+
+.logo:hover span {
+    color: var(--primary-dark);
 }
 
 .nav-menu {
@@ -283,6 +312,7 @@ p {
     border-radius: var(--radius-sm);
     transition: var(--transition);
     color: var(--text-secondary);
+    text-decoration: none;
 }
 
 .nav-link:hover,
@@ -318,6 +348,14 @@ p {
 }
 
 @media (max-width: 992px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+    
+    .section {
+        padding: 60px 0;
+    }
+    
     .menu-toggle {
         display: flex;
     }
@@ -362,7 +400,9 @@ p {
     align-items: center;
     padding: 120px 0 80px;
     position: relative;
+    overflow: hidden;
 }
+
 
 .hero-content {
     display: flex;
@@ -454,7 +494,10 @@ p {
 /* Features Section */
 .features {
     background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
 }
+
 
 .section-header {
     text-align: center;
@@ -658,7 +701,10 @@ p {
 /* Roadmap Section */
 .roadmap {
     background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
 }
+
 
 .timeline {
     position: relative;
@@ -1083,6 +1129,7 @@ p {
     
     .hero-buttons {
         justify-content: center;
+        gap: 1rem;
     }
     
     .footer-grid {
@@ -1091,44 +1138,159 @@ p {
     
     .vision-cards {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .hero-content {
+        gap: 2rem;
+    }
+    
+    .about-content {
+        gap: 2rem;
     }
 }
 
 @media (max-width: 768px) {
     .section {
-        padding: 60px 0;
+        padding: 50px 0;
     }
     
     .container {
-        padding: 0 1.5rem;
+        padding: 0 1rem;
     }
     
     .features-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .vision-cards {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .cta {
         margin: 0 1rem;
+        padding: 60px 0;
+    }
+    
+    .hero {
+        padding: 100px 0 60px;
+        min-height: 90vh;
+    }
+    
+    .hero-tagline {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .feature-card {
+        padding: 1.25rem;
+    }
+    
+    .feature-icon {
+        font-size: 1.75rem;
+    }
+    
+    .vision-card {
+        padding: 1.5rem;
+    }
+    
+    .timeline-content {
+        padding: 1.5rem;
+    }
+    
+    .faq-header {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .faq-answer {
+        padding: 0 1.5rem 1.5rem;
     }
 }
 
 @media (max-width: 576px) {
     .footer-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
     
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 0.75rem;
     }
     
     .btn {
         width: 100%;
         max-width: 280px;
+        padding: 14px 24px;
+        font-size: 1rem;
+    }
+    
+    .nav-menu {
+        width: 100%;
+        padding: 80px 1rem 2rem;
+    }
+    
+    .nav-menu li {
+        width: 100%;
+    }
+    
+    .nav-link {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 12px 16px;
+        margin-bottom: 4px;
+    }
+    
+    .nav-cta {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+    
+    h1 {
+        font-size: 2.25rem;
+        line-height: 1.1;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .feature-title,
+    .vision-title {
+        font-size: 1.125rem;
+    }
+    
+    .timeline-item {
+        padding-left: 3rem;
+    }
+    
+    .timeline::before {
+        left: 1.5rem;
+    }
+    
+    .timeline-item::before {
+        left: 1.25rem;
     }
 }
 
